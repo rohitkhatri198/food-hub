@@ -17,15 +17,15 @@ const RowContainer = ({ flag, data, scroll }) => {
       }`}
     >
       {data &&
-        data.map((item) => (
-          <div className="w-300 min-w-[300px] md:min-w-[340px] md:w-340 h-auto  my-12 bg-cardOverlay rounded-lg p-4  hover:drop-shadow-lg backdrop-blur-lg">
+        data.map((item, i) => (
+          <div key={i} className="w-300 min-w-[300px] md:min-w-[340px] md:w-340 h-auto  my-12 bg-cardOverlay rounded-lg p-4  hover:drop-shadow-lg backdrop-blur-lg">
             <div
               key={item.id}
               className="flex justify-between items-center w-full"
             >
               <motion.img
                 whileHover={{ scale: 1.2 }}
-                src="https://firebasestorage.googleapis.com/v0/b/food-hub-ce044.appspot.com/o/Images%2F1683375715455-f10.png?alt=media&token=d970c2b2-24df-418c-88c2-ed398f2e4c4c"
+                src={item.imageURL}
                 className="w-40 p-2 drop-shadow-2xl -mt-8"
                 alt=""
               />
@@ -39,12 +39,12 @@ const RowContainer = ({ flag, data, scroll }) => {
 
             <div className="flex flex-col justify-end  items-end w-full">
               <p className="text-textColor font-semibold text-base md:text-lg">
-                Chocalte & Vanilla
+               {item.title}
               </p>
-              <p className="mt-1 text-sm text-gray-500 ">45 calories</p>
+              <p className="mt-1 text-sm text-gray-500 ">{item.calories} calories</p>
               <div className="flex items-center gap-8"></div>
               <p className="text-lg text-textColor font-semibold">
-                <span className="text-sm text-red-500">$</span>5.25
+                <span className="text-sm text-red-500">$</span>{item.price}
               </p>
             </div>
           </div>
