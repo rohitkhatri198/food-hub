@@ -4,18 +4,15 @@ import { motion } from "framer-motion";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import RowContainer from "./RowContainer";
 import { useStateValue } from "../context/StateProvider";
+import MenuConatiner from "./MenuConatiner";
+import CartContainer from "./CartContainer";
 
 const MainContainer = () => {
-  const [{foodItems}] = useStateValue();
-  const [scroll, setScroll] = useState(0)  
+  const [{ foodItems, cartShow }] = useStateValue();
+  const [scroll, setScroll] = useState(0);
   useEffect(() => {
-    
-  
-    return () => {
-      
-    }
-  }, [scroll])
-  
+    return () => {};
+  }, [scroll, cartShow]);
 
   return (
     <div className="flex w-full h-auto justify-center items-center flex-col">
@@ -30,20 +27,26 @@ const MainContainer = () => {
             <motion.div
               whileTap={{ scale: 0.85 }}
               className="w-8 h-8 text-2xl text-white rounded-lg bg-orange-300 hover:bg-orange-500 cursor-pointer transition-all duration-100 ease-in-out hover:shadow-lg flex items-center justify-center"
-              onClick={()=>setScroll(-400)}
+              onClick={() => setScroll(-3000)}
             >
               <MdChevronLeft />
             </motion.div>
             <motion.div
               whileTap={{ scale: 0.85 }}
               className="w-8 h-8 text-2xl text-white rounded-lg bg-orange-300 hover:bg-orange-500 cursor-pointer transition-all duration-100 ease-in-out hover:shadow-lg flex items-center justify-center"
-              onClick={()=>setScroll(400)}
+              onClick={() => setScroll(3000)}
             >
               <MdChevronRight />
             </motion.div>
           </div>
         </div>
-        <RowContainer scroll={scroll} flag={true} data={foodItems?.filter(n => n.category==="fruits")}/>
+        <RowContainer
+          scroll={scroll}
+          flag={true}
+          data={foodItems?.filter((n) => n.category === "fruits")}
+        />
+        <MenuConatiner />
+        {cartShow && <CartContainer />}
       </section>
     </div>
   );

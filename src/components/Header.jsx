@@ -12,7 +12,7 @@ const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const [isMenu, setIsMenu] = useState(false);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, cartShow }, dispatch] = useStateValue();
   const login = async () => {
     if (!user) {
       const {
@@ -28,27 +28,34 @@ const Header = () => {
     }
   };
 
-  const logout = () =>{
+  const logout = () => {
     setIsMenu(true);
-    localStorage.clear()
+    localStorage.clear();
     dispatch({
-        type: actionType.SET_USER,
-        user: null,
-    })
-  }
-  
+      type: actionType.SET_USER,
+      user: null,
+    });
+  };
+  const showCart = () => {
+    dispatch({
+      type: actionType.SET_CART_SHOW,
+      cartShow: !cartShow,
+    });
+  };
+
   return (
     <header className="fixed w-screen z-50 p-3    px-4  md:px-16 md:p-6 bg-primary onClick={()=>{setIsMenu(true)}}">
       <div className="flex w-full h-full items-center justify-between">
-      <motion.div
-            whileTap={{ scale: 0.9 }}
-            className=" flex md:hidden relative select-none  justify-center items-center cursor-pointer"
-          >
-            <MdShoppingBasket className="text-textColor text-2xl"></MdShoppingBasket>
-            <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
-              <span className="text-xs text-white font-semibold">5</span>
-            </div>
-          </motion.div>
+        <motion.div
+          whileTap={{ scale: 0.9 }}
+          className=" flex md:hidden relative select-none  justify-center items-center cursor-pointer"
+          onClick={showCart}
+        >
+          <MdShoppingBasket className="text-textColor text-2xl"></MdShoppingBasket>
+          <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
+            <span className="text-xs text-white font-semibold">5</span>
+          </div>
+        </motion.div>
         <Link to={"/"} className="flex items-center gap-2">
           <motion.img
             whileTap={{ scale: 0.9 }}
@@ -56,7 +63,9 @@ const Header = () => {
             alt="logo"
             className="w-10 object-cover"
           />
-          <h1 className="text-black font-extrabold text-xl">Food <span className="bg-orange-400 p-1 rounded-md">Hub</span></h1>
+          <h1 className="text-black font-extrabold text-xl">
+            Food <span className="bg-orange-400 p-1 rounded-md">Hub</span>
+          </h1>
         </Link>
 
         <div className="flex items-center gap-8">
@@ -66,22 +75,43 @@ const Header = () => {
             exit={{ opacity: 0, x: 200 }}
             className=" hidden md:flex items-center gap-8"
           >
-            <li onClick={()=>{setIsMenu(true)}} className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+            <li
+              onClick={() => {
+                setIsMenu(true);
+              }}
+              className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+            >
               Home
             </li>
-            <li onClick={()=>{setIsMenu(true)}} className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+            <li
+              onClick={() => {
+                setIsMenu(true);
+              }}
+              className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+            >
               Menu
             </li>
-            <li onClick={()=>{setIsMenu(true)}} className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+            <li
+              onClick={() => {
+                setIsMenu(true);
+              }}
+              className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+            >
               About Us
             </li>
-            <li onClick={()=>{setIsMenu(true)}} className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+            <li
+              onClick={() => {
+                setIsMenu(true);
+              }}
+              className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+            >
               Service
             </li>
           </motion.ul>
           <motion.div
             whileTap={{ scale: 0.9 }}
             className=" hidden relative select-none md:flex justify-center items-center cursor-pointer"
+            onClick={showCart}
           >
             <MdShoppingBasket className="text-textColor text-2xl"></MdShoppingBasket>
             <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
@@ -104,27 +134,55 @@ const Header = () => {
               >
                 {user && user.email === "khatrirohit198@gmail.com" && (
                   <Link to={"/createItem"}>
-                    <div className="flex px-4 py-2 items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base" onClick={()=>{setIsMenu(true)}}>
+                    <div
+                      className="flex px-4 py-2 items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base"
+                      onClick={() => {
+                        setIsMenu(true);
+                      }}
+                    >
                       New Item
                       <MdAdd />
                     </div>
                   </Link>
                 )}
                 <ul className=" flex flex-col   md:hidden">
-                  <li onClick={()=>{setIsMenu(true)}} className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+                  <li
+                    onClick={() => {
+                      setIsMenu(true);
+                    }}
+                    className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+                  >
                     Home
                   </li>
-                  <li onClick={()=>{setIsMenu(true)}} className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+                  <li
+                    onClick={() => {
+                      setIsMenu(true);
+                    }}
+                    className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+                  >
                     Menu
                   </li>
-                  <li onClick={()=>{setIsMenu(true)}} className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+                  <li
+                    onClick={() => {
+                      setIsMenu(true);
+                    }}
+                    className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+                  >
                     About Us
                   </li>
-                  <li onClick={()=>{setIsMenu(true)}} className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer">
+                  <li
+                    onClick={() => {
+                      setIsMenu(true);
+                    }}
+                    className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
+                  >
                     Service
                   </li>
                 </ul>
-                <div className="flex m-2 px-4 py-2 rounded-md shadow-md  justify-center items-center gap-3 cursor-pointer bg-gray-200 hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base" onClick={logout}>
+                <div
+                  className="flex m-2 px-4 py-2 rounded-md shadow-md  justify-center items-center gap-3 cursor-pointer bg-gray-200 hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={logout}
+                >
                   Logout
                   <MdLogout />
                 </div>

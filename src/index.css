@@ -19,3 +19,6 @@ html,body{
 .hideScroll::-webkit-scrollbar{
   display: none;
 }
+.aspectRatio{
+  aspect-ratio: 3/3;
+}
