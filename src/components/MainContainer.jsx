@@ -8,7 +8,7 @@ import MenuConatiner from "./MenuConatiner";
 import CartContainer from "./CartContainer";
 
 const MainContainer = () => {
-  const [{ foodItems, cartShow }] = useStateValue();
+  const [{foodItems, cartShow}] = useStateValue();
   const [scroll, setScroll] = useState(0);
   useEffect(() => {
     return () => {};
