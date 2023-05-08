@@ -1,14 +1,31 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdShoppingBasket } from "react-icons/md";
 import { motion } from "framer-motion";
 import NotFound from "../images/NotFound.svg";
+import { useStateValue } from "../context/StateProvider";
+import { actionType } from "../context/reducer";
 
 const RowContainer = ({ flag, data, scroll }) => {
   // console.log(data);
   const rowRef = useRef();
+  
+  const [{ user, cartItems }, dispatch] = useStateValue();
   useEffect(() => {
     rowRef.current.scrollLeft += scroll;
   }, [scroll]);
+
+  const addtobasket = (item) => {
+    if (user) {
+      const updatedCartItems = [...cartItems, item];
+      dispatch({
+        type: actionType.SET_CART_ITEMS,
+        cartItems: updatedCartItems,
+      });
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    }else{
+      alert("Please login to add to cart");
+    }
+  };
 
   return (
     <div
@@ -39,6 +56,7 @@ const RowContainer = ({ flag, data, scroll }) => {
               <motion.div
                 whileTap={{ scale: 0.85 }}
                 className="w-8 h-8 rounded-full flex items-center justify-center p-2 cursor-pointer hover:shadow-md bg-red-600"
+                onClick={() => addtobasket(item)}
               >
                 <MdShoppingBasket className="text-white " />
               </motion.div>
@@ -62,7 +80,9 @@ const RowContainer = ({ flag, data, scroll }) => {
       ) : (
         <div className="flex w-full flex-col justify-center items-center">
           <img src={NotFound} alt="notFound" className="h-420" />
-          <p className="text-headingColor text-xl my-8 font-semibold">Items not available</p>
+          <p className="text-headingColor text-xl my-8 font-semibold">
+            Items not available
+          </p>
         </div>
       )}
     </div>

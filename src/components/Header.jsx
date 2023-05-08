@@ -12,7 +12,7 @@ const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const [isMenu, setIsMenu] = useState(false);
-  const [{ user, cartShow }, dispatch] = useStateValue();
+  const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
   const login = async () => {
     if (!user) {
       const {
@@ -52,9 +52,11 @@ const Header = () => {
           onClick={showCart}
         >
           <MdShoppingBasket className="text-textColor text-2xl"></MdShoppingBasket>
-          <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
-            <span className="text-xs text-white font-semibold">5</span>
-          </div>
+          {cartItems && cartItems.length > 0 && (
+            <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
+              <span className="text-xs text-white font-semibold">{cartItems.length}</span>
+            </div>
+          )}
         </motion.div>
         <Link to={"/"} className="flex items-center gap-2">
           <motion.img
@@ -77,7 +79,11 @@ const Header = () => {
           >
             <li
               onClick={() => {
-                setIsMenu(true);
+                if (user) {
+                  setIsMenu(true);
+                } else {
+                  setIsMenu(false);
+                }
               }}
               className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
             >
@@ -85,7 +91,11 @@ const Header = () => {
             </li>
             <li
               onClick={() => {
-                setIsMenu(true);
+                if (user) {
+                  setIsMenu(true);
+                } else {
+                  setIsMenu(false);
+                }
               }}
               className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
             >
@@ -93,7 +103,11 @@ const Header = () => {
             </li>
             <li
               onClick={() => {
-                setIsMenu(true);
+                if (user) {
+                  setIsMenu(true);
+                } else {
+                  setIsMenu(false);
+                }
               }}
               className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
             >
@@ -101,7 +115,11 @@ const Header = () => {
             </li>
             <li
               onClick={() => {
-                setIsMenu(true);
+                if (user) {
+                  setIsMenu(true);
+                } else {
+                  setIsMenu(false);
+                }
               }}
               className="text-base text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
             >
@@ -114,9 +132,11 @@ const Header = () => {
             onClick={showCart}
           >
             <MdShoppingBasket className="text-textColor text-2xl"></MdShoppingBasket>
-            <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
-              <span className="text-xs text-white font-semibold">5</span>
-            </div>
+            {cartItems && cartItems.length > 0 && (
+              <div className="w-4 h-4 absolute -top-3 -right-2 rounded-full flex items-center justify-center bg-cartNumBg">
+                <span className="text-xs text-white font-semibold">{cartItems.length}</span>
+              </div>
+            )}
           </motion.div>
           <div className="relative" onClick={login}>
             <motion.img
@@ -148,7 +168,11 @@ const Header = () => {
                 <ul className=" flex flex-col   md:hidden">
                   <li
                     onClick={() => {
-                      setIsMenu(true);
+                      if (user) {
+                        setIsMenu(true);
+                      } else {
+                        setIsMenu(false);
+                      }
                     }}
                     className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
                   >
@@ -156,7 +180,11 @@ const Header = () => {
                   </li>
                   <li
                     onClick={() => {
-                      setIsMenu(true);
+                      if (user) {
+                        setIsMenu(true);
+                      } else {
+                        setIsMenu(false);
+                      }
                     }}
                     className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
                   >
@@ -164,7 +192,11 @@ const Header = () => {
                   </li>
                   <li
                     onClick={() => {
-                      setIsMenu(true);
+                      if (user) {
+                        setIsMenu(true);
+                      } else {
+                        setIsMenu(false);
+                      }
                     }}
                     className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
                   >
@@ -172,7 +204,11 @@ const Header = () => {
                   </li>
                   <li
                     onClick={() => {
-                      setIsMenu(true);
+                      if (user) {
+                        setIsMenu(true);
+                      } else {
+                        setIsMenu(false);
+                      }
                     }}
                     className="text-base px-4 py-2 text-textColor hover:text-headingColor transition-all duration-100 ease-in-out cursor-pointer"
                   >
