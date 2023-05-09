@@ -8,10 +8,10 @@ import { actionType } from "../context/reducer";
 import EmptyCart from "../images/emptyCart.svg";
 const CartContainer = () => {
   const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
-  const [qty, setQty] = useState(1);
-  const [items, setItems] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  let [items, setItems] = useState([]);
   const [tot, setTot] = useState(0);
-  const[flag, setFlag]=useState(1)
+  const [flag, setFlag] = useState(1);
   const showCart = () => {
     dispatch({
       type: actionType.SET_CART_SHOW,
@@ -21,31 +21,31 @@ const CartContainer = () => {
   const cartDispatch = () => {
     localStorage.setItem("cartItems", JSON.stringify(items));
     dispatch({
-        type:actionType.SET_CART_ITEMS,
-        cartItems:items,
-    })
+      type: actionType.SET_CART_ITEMS,
+      cartItems: items,
+    });
   };
-  const updateQty = (action, id) => {
+  const updateQuantity = (action, id) => {
     if (action === "add") {
-      setQty(qty + 1);
+      setQuantity(quantity + 1);
       cartItems.map((item) => {
         if (item.id === id) {
-          item.qty += 1;
+          item.quantity += 1;
           setFlag(flag + 1);
         }
       });
       cartDispatch();
     } else {
       // initial state value is one so you need to check if 1 then remove it
-      if (qty === 1) {
+      if (quantity === 1) {
         items = cartItems.filter((item) => item.id !== id);
         setFlag(flag + 1);
         cartDispatch();
       } else {
-        setQty(qty - 1);
+        setQuantity(quantity - 1);
         cartItems.map((item) => {
           if (item.id === id) {
-            item.qty -= 1;
+            item.quantity -= 1;
             setFlag(flag + 1);
           }
         });
@@ -53,16 +53,20 @@ const CartContainer = () => {
       }
     }
   };
+
   useEffect(() => {
     let totalPrice = cartItems.reduce(function (accumulator, item) {
-      return accumulator + item.qty * item.price;
+      return accumulator + item.quantity * item.price;
     }, 0);
     setTot(totalPrice);
-    console.log(tot);
-  }, [flag, cartItems, tot]);
+    
+  }, [cartItems]);
+  
+  console.log(cartItems);
+
   useEffect(() => {
-    setItems(cartItems)
-  }, [cartItems,qty]);
+    setItems(cartItems);
+  }, [cartItems, quantity]);
 
   const clearCart = () => {
     dispatch({
@@ -117,22 +121,22 @@ const CartContainer = () => {
                   <div className="flex flex-col gap-1">
                     <p className="text-base text-gray-50">{item?.title}</p>
                     <p className="text-sm block text-gray-300 font-semibold ">
-                      ${item?.price * qty}
+                      ${item?.price * quantity}
                     </p>
                   </div>
                   <div className="group flex items-center gap-2 ml-auto cursor-pointer">
                     <motion.div
                       whileTap={{ scale: 0.75 }}
-                      onClick={() => updateQty("remove", item?.id)}
+                      onClick={() => updateQuantity("remove", item?.id)}
                     >
                       <BiMinus className="text-gray-50" />
                     </motion.div>
                     <p className="w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center">
-                      {qty}
+                      {quantity}
                     </p>
                     <motion.div
                       whileTap={{ scale: 0.75 }}
-                      onClick={() => updateQty("add", item?.id)}
+                      onClick={() => updateQuantity("add", item?.id)}
                     >
                       <BiPlus className="text-gray-50" />
                     </motion.div>
@@ -153,7 +157,9 @@ const CartContainer = () => {
             <div className="w-full border-b border-gray-600 my-2"></div>
             <div className="w-full flex items-center justify-between">
               <p className="text-gray-200 text-xl font-semibold">Total</p>
-              <p className="text-gray-200 text-xl font-semibold">${tot + 2.5}</p>
+              <p className="text-gray-200 text-xl font-semibold">
+                ${tot + 2.5}
+              </p>
             </div>
             {user ? (
               <motion.button

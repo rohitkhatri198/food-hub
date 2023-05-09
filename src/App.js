@@ -17,7 +17,7 @@ const App = () => {
         type:actionType.SET_FOOD_ITEMS,
         foodItems: data,
       })
-      console.log(data)
+      // console.log(data)
     });
   };
   useEffect(() => {
